@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="google-site-verification" content="dBq9J4CRfDHnhyodli_qtYISJzz-UuvpjKamFVQ7QbM" />
+  <title>SellArt — Sell Your Art Online Free</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config={theme:{extend:{colors:{bg:'#050505',surface:'#121212',card:'#0A0A0A','text-secondary':'#A1A1AA','text-dim':'#52525B','brand-blue':'#0091FF','brand-gold':'#FFC800','brand-cyan':'#00E5FF','brand-rose':'#FF3366','brand-green':'#22C55E'},fontFamily:{inter:['Inter','sans-serif']}}}};
+  </script>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Inter',sans-serif;background:#050505;color:#FFF;overflow-x:hidden}
+    ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:#0A0A0A}::-webkit-scrollbar-thumb{background:#52525B;border-radius:3px}
+    .reveal-on-scroll{opacity:0;transform:translateY(30px);filter:blur(5px);transition:all 1s cubic-bezier(.16,1,.3,1)}.reveal-on-scroll.is-visible{opacity:1;transform:translateY(0);filter:blur(0)}
+    .card-hover{transition:all .4s cubic-bezier(.16,1,.3,1)}.card-hover:hover{transform:translateY(-6px);border-color:rgba(255,200,0,.3);box-shadow:0 20px 60px rgba(255,200,0,.08)}
+    .btn-secondary{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);transition:all .3s ease;cursor:pointer}.btn-secondary:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2)}
+    .btn-gold{background:linear-gradient(to right,#FFC800,#FF9500);box-shadow:0 0 30px rgba(255,200,0,.2);transition:all .3s ease;color:#000;cursor:pointer}.btn-gold:hover{box-shadow:0 0 50px rgba(255,200,0,.4);transform:translateY(-2px) scale(1.02)}
+    .btn-primary{background:linear-gradient(to right,#0091FF,#00E5FF);box-shadow:0 0 30px rgba(0,145,255,.3);transition:all .3s ease;cursor:pointer}
+    .btn-green{background:linear-gradient(to right,#22C55E,#16A34A);box-shadow:0 0 30px rgba(34,197,94,.2);transition:all .3s ease;color:#fff;cursor:pointer}.btn-green:hover{transform:translateY(-2px)}
+    .btn-rose{background:linear-gradient(to right,#FF3366,#DC2626);box-shadow:0 0 30px rgba(255,51,102,.2);transition:all .3s ease;color:#fff;cursor:pointer}.btn-rose:hover{transform:translateY(-2px)}
+    .category-chip{transition:all .3s ease;cursor:pointer}.category-chip:hover,.category-chip.active{background:rgba(255,200,0,.15);border-color:#FFC800;color:#FFC800}
+    .like-btn.liked{color:#FFC800}.like-btn.liked svg{fill:#FFC800}
+    .modal-overlay{opacity:0;pointer-events:none;transition:opacity .3s ease}.modal-overlay.open{opacity:1;pointer-events:all}
+    .modal-overlay .modal-content{transform:scale(.95) translateY(20px);transition:transform .4s cubic-bezier(.16,1,.3,1)}.modal-overlay.open .modal-content{transform:scale(1) translateY(0)}
+    .toast-container{position:fixed;top:100px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:8px}
+    .toast{background:#121212;border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:12px 20px;display:flex;align-items:center;gap:10px;animation:toastIn .4s cubic-bezier(.16,1,.3,1),toastOut .3s ease 2.5s forwards;box-shadow:0 10px 40px rgba(0,0,0,.5)}
+    @keyframes toastIn{from{opacity:0;transform:translateX(100px)}to{opacity:1;transform:translateX(0)}}
+    @keyframes toastOut{to{opacity:0;transform:translateX(100px)}}
+    .pulse-slow{animation:pulse-slow 4s cubic-bezier(.4,0,.6,1) infinite}@keyframes pulse-slow{0%,100%{opacity:.6}50%{opacity:.3}}
+    .img-shine{position:relative;overflow:hidden}.img-shine::after{content:'';position:absolute;top:0;left:-100%;width:50%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.05),transparent);transition:left .6s ease}.img-shine:hover::after{left:100%}
+    .sold-banner{position:absolute;top:0;right:0;overflow:hidden;width:80px;height:80px;pointer-events:none}
+    .sold-banner span{position:absolute;display:block;width:120px;padding:4px 0;background:#FFC800;color:#000;font-size:10px;font-weight:700;text-align:center;text-transform:uppercase;letter-spacing:1px;transform:rotate(45deg);top:18px;right:-32px}
+    input,textarea,select{outline:none}input:focus,textarea:focus,select:focus{border-color:#FFC800!important;box-shadow:0 0 0 3px rgba(255,200,0,.15)}
+    .live-dot{width:6px;height:6px;border-radius:50%;background:#22C55E;animation:livePulse 2s infinite}@keyframes livePulse{0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,.4)}50%{box-shadow:0 0 0 6px rgba(34,197,94,0)}}
+    .empty-float{animation:emptyFloat 6s ease-in-out infinite}@keyframes emptyFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+    .chat-bubble-out{background:rgba(255,200,0,.12);border-radius:16px 2px 16px 16px}
+    .chat-bubble-seller{background:rgba(0,145,255,.1);border-radius:2px 16px 16px 16px}
+    .msg-scroll::-webkit-scrollbar{width:4px}.msg-scroll::-webkit-scrollbar-thumb{background:#333;border-radius:2px}
+    .marquee{overflow:hidden;white-space:nowrap}.marquee-inner{display:inline-flex;animation:marquee 30s linear infinite}@keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+    .grain{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9998;opacity:.02;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+    .glow-line{height:1px;background:linear-gradient(90deg,transparent,rgba(255,200,0,.3),transparent)}
+    .tag-pill{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:9999px;padding:4px 12px;font-size:11px;color:#A1A1AA}
+    .filter-panel{max-height:0;overflow:hidden;transition:max-height .5s cubic-bezier(.16,1,.3,1),opacity .3s ease;opacity:0}.filter-panel.open{max-height:700px;opacity:1}
+    .filter-check{appearance:none;width:16px;height:16px;border:1.5px solid rgba(255,255,255,.15);border-radius:4px;background:transparent;cursor:pointer;transition:all .2s;flex-shrink:0;position:relative}
+    .filter-check:checked{background:#FFC800;border-color:#FFC800}.filter-check:checked::after{content:'';position:absolute;top:2px;left:5px;width:4px;height:8px;border:solid #000;border-width:0 2px 2px 0;transform:rotate(45deg)}
+    .filter-range{-webkit-appearance:none;appearance:none;width:100%;height:4px;border-radius:2px;background:rgba(255,255,255,.1);outline:none}
+    .filter-range::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:#FFC800;cursor:pointer;box-shadow:0 0 10px rgba(255,200,0,.4)}
+    .shield-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.2);color:#22C55E;font-size:10px;font-weight:600;padding:3px 10px;border-radius:9999px;letter-spacing:.5px}
+    .step-dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
+    .step-dot.done{background:#22C55E;color:#000}.step-dot.active{background:#FFC800;color:#000;box-shadow:0 0 20px rgba(255,200,0,.4)}.step-dot.pending{background:rgba(255,255,255,.08);color:#52525B}
+    .step-line{flex:1;height:2px;background:rgba(255,255,255,.08)}.step-line.done{background:#22C55E}
+    .tx-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:16px}
+    .evidence-upload{border:2px dashed rgba(255,255,255,.1);border-radius:12px;padding:24px;text-align:center;cursor:pointer;transition:all .3s}.evidence-upload:hover{border-color:rgba(255,200,0,.4);background:rgba(255,200,0,.03)}
+    .evidence-thumb{position:relative;border-radius:8px;overflow:hidden;aspect-ratio:1;background:rgba(255,255,255,.03)}
+    .evidence-thumb img{width:100%;height:100%;object-fit:cover}
+    .ev-remove{position:absolute;top:4px;right:4px;width:20px;height:20px;border-radius:50%;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-center;cursor:pointer;opacity:0;transition:opacity .2s}
+    .evidence-thumb:hover .ev-remove{opacity:1}
+  </style>
+</head>
+<body class="font-inter">
+<div class="grain"></div>
+<div class="toast-container" id="toastContainer"></div>
+
+<nav class="fixed top-0 w-full z-50 backdrop-blur-xl bg-bg/80 border-b border-white/5">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <a href="#" class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-brand-gold to-brand-rose flex items-center justify-center"><i data-lucide="brush" class="w-5 h-5 text-black"></i></div>
+      <span class="text-xl font-extrabold tracking-tight">Sell<span class="text-brand-gold">Art</span></span>
+    </a>
+    <div class="hidden md:flex items-center flex-1 max-w-xl mx-8">
+      <div class="relative w-full">
+        <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-text-dim"></i>
+        <input type="text" id="searchInput" placeholder="Search art..." class="w-full bg-white/5 border border-white/10 rounded-xl pl-11 pr-4 py-2.5 text-sm text-white placeholder-text-dim">
+      </div>
+    </div>
+    <div class="flex items-center gap-2">
+      <button id="btnNavSell" class="btn-gold font-bold text-sm px-5 py-2.5 rounded-xl flex items-center gap-2"><i data-lucide="plus" class="w-4 h-4"></i><span class="hidden sm:inline">Sell Art</span></button>
+      <button id="btnNavTx" class="relative btn-secondary p-2.5 rounded-xl"><i data-lucide="shield-check" class="w-5 h-5 text-brand-green"></i><span class="absolute -top-1 -right-1 w-4 h-4 bg-brand-green rounded-full text-[10px] font-bold text-black flex items-center justify-center hidden" id="txBadge">0</span></button>
+      <button id="btnNavInbox" class="relative btn-secondary p-2.5 rounded-xl"><i data-lucide="message-circle" class="w-5 h-5 text-text-secondary"></i><span class="absolute -top-1 -right-1 w-4 h-4 bg-brand-rose rounded-full text-[10px] font-bold text-white flex items-center justify-center hidden" id="inboxBadge">0</span></button>
+      <div id="btnNavProfile" class="w-9 h-9 rounded-full bg-gradient-to-br from-brand-gold to-brand-rose flex items-center justify-center cursor-pointer ml-1 text-sm font-semibold text-black">A</div>
+    </div>
+  </div>
+  <div class="md:hidden px-6 pb-4">
+    <div class="relative w-full">
+      <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-text-dim"></i>
+      <input type="text" id="searchInputMobile" placeholder="Search art..." class="w-full bg-white/5 border border-white/10 rounded-xl pl-11 pr-4 py-2.5 text-sm text-white placeholder-text-dim">
+    </div>
+  </div>
+</nav>
+
+<header class="min-h-[55vh] flex flex-col items-center justify-center relative pt-28 pb-10 overflow-hidden">
+  <div class="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-brand-gold/8 rounded-full blur-[120px] pulse-slow"></div>
+  <div class="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-brand-rose/6 rounded-full blur-[100px] pulse-slow" style="animation-delay:2s"></div>
+  <div class="relative z-10 max-w-5xl mx-auto px-6 text-center">
+    <div class="inline-flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-1.5 mb-6">
+      <span class="live-dot"></span>
+      <span class="text-xs font-medium text-text-secondary uppercase tracking-wider" id="heroOnlineCount">Be the first to join</span>
+    </div>
+    <h1 style="font-size:clamp(2.5rem,8vw,5rem);line-height:1.05;font-weight:800;letter-spacing:-0.04em" class="mb-6">
+      <span class="text-white">Sell Your</span>
+      <span style="background:linear-gradient(to right,#FFC800,#FF3366,#FFC800);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Art Online</span>
+    </h1>
+    <p class="text-lg text-text-secondary max-w-2xl mx-auto mb-4 font-light">The free marketplace to <strong class="text-white font-medium">sell art</strong> directly to buyers.</p>
+    <div class="flex items-center justify-center gap-2 mb-10">
+      <span class="shield-badge"><i data-lucide="shield-check" class="w-3 h-3"></i> Escrow-Protected</span>
+      <span class="shield-badge" style="background:rgba(255,51,102,.1);border-color:rgba(255,51,102,.2);color:#FF3366"><i data-lucide="camera" class="w-3 h-3"></i> Scam Proof</span>
+    </div>
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+      <button id="btnHeroSell" class="btn-gold font-bold text-sm uppercase tracking-wide px-10 py-4 rounded-xl flex items-center gap-2 text-base"><i data-lucide="plus" class="w-5 h-5"></i> Sell Your Art</button>
+      <button id="btnHeroBrowse" class="btn-secondary text-white font-medium text-sm px-8 py-4 rounded-xl flex items-center gap-2"><i data-lucide="eye" class="w-5 h-5"></i> Browse Art</button>
+    </div>
+    <div class="grid grid-cols-4 gap-6 mt-14 max-w-lg mx-auto">
+      <div><div class="text-3xl font-bold text-brand-gold" id="statArtworks">0</div><div class="text-[10px] text-text-dim mt-1 uppercase tracking-wider">Artworks</div></div>
+      <div><div class="text-3xl font-bold text-brand-blue" id="statArtists">0</div><div class="text-[10px] text-text-dim mt-1 uppercase tracking-wider">Artists</div></div>
+      <div><div class="text-3xl font-bold text-brand-rose" id="statSold">0</div><div class="text-[10px] text-text-dim mt-1 uppercase tracking-wider">Sold</div></div>
+      <div><div class="text-3xl font-bold text-brand-green" id="statProtected">$0</div><div class="text-[10px] text-text-dim mt-1 uppercase tracking-wider">Escrowed</div></div>
+    </div>
+  </div>
+</header>
+
+<section class="py-2 border-y border-white/5 overflow-hidden">
+  <div class="marquee"><div class="marquee-inner">
+    <span class="inline-flex items-center gap-2 px-6 text-xs text-text-dim"><i data-lucide="shield-check" class="w-3 h-3 text-brand-green"></i> Escrow protected</span><span class="text-text-dim/20 px-1">·</span>
+    <span class="inline-flex items-center gap-2 px-6 text-xs text-text-dim"><i data-lucide="camera" class="w-3 h-3 text-brand-rose"></i> Scam proof</span><span class="text-text-dim/20 px-1">·</span>
+    <span class="inline-flex items-center gap-2 px-6 text-xs text-text-dim"><i data-lucide="banknote" class="w-3 h-3 text-brand-gold"></i> 0% fees</span><span class="text-text-dim/20 px-1">·</span>
+    <span class="inline-flex items-center gap-2 px-6 text-xs text-text-dim"><i data-lucide="hand" class="w-3 h-3 text-green-400"></i> Human-made only</span><span class="text-text-dim/20 px-1">·</span>
+    <span class="inline-flex items-center gap-2 px-6 text-xs text-text-dim"><i data-lucide="shield-check" class="w-3 h-3 text-brand-green"></i> Escrow protected</span><span class="text-text-dim/20 px-1">·</span>
+    <span class="inline-flex items-center gap-2 px-6 text-xs text-text-dim"><i data-lucide="camera" class="w-3 h-3 text-brand-rose"></i> Scam proof</span><span class="text-text-dim/20 px-1">·</span>
+    <span class="inline-flex items-center gap-2 px-6 text-xs text-text-dim"><i data-lucide="banknote" class="w-3 h-3 text-brand-gold"></i> 0% fees</span><span class="text-text-dim/20 px-1">·</span>
+    <span class="inline-flex items-center gap-2 px-6 text-xs text-text-dim"><i data-lucide="hand" class="w-3 h-3 text-green-400"></i> Human-made only</span>
+  </div></div>
+</section>
+
+<section class="py-12 relative">
+  <div class="max-w-5xl mx-auto px-6">
+    <div class="reveal-on-scroll text-center mb-10">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight mb-2">How Escrow Protects You</h2>
+      <p class="text-text-secondary text-sm">Your money is held safely until you confirm the art is real.</p>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="reveal-on-scroll bg-card border border-white/5 rounded-2xl p-6 text-center card-hover">
+        <div class="w-12 h-12 rounded-full bg-brand-gold/10 flex items-center justify-center mx-auto mb-4"><i data-lucide="credit-card" class="w-5 h-5 text-brand-gold"></i></div>
+        <h4 class="font-semibold text-sm mb-1">1. Buyer Pays</h4>
+        <p class="text-text-dim text-xs leading-relaxed">Money goes into escrow — seller never touches it upfront.</p>
+      </div>
+      <div class="reveal-on-scroll bg-card border border-white/5 rounded-2xl p-6 text-center card-hover" style="transition-delay:.08s">
+        <div class="w-12 h-12 rounded-full bg-brand-blue/10 flex items-center justify-center mx-auto mb-4"><i data-lucide="package" class="w-5 h-5 text-brand-blue"></i></div>
+        <h4 class="font-semibold text-sm mb-1">2. Seller Ships</h4>
+        <p class="text-text-dim text-xs leading-relaxed">Seller ships the art with tracking through the platform.</p>
+      </div>
+      <div class="reveal-on-scroll bg-card border border-white/5 rounded-2xl p-6 text-center card-hover" style="transition-delay:.16s">
+        <div class="w-12 h-12 rounded-full bg-brand-green/10 flex items-center justify-center mx-auto mb-4"><i data-lucide="check-circle" class="w-5 h-5 text-brand-green"></i></div>
+        <h4 class="font-semibold text-sm mb-1">3. Buyer Confirms</h4>
+        <p class="text-text-dim text-xs leading-relaxed">Buyer inspects the art and confirms it matches the listing.</p>
+      </div>
+      <div class="reveal-on-scroll bg-card border border-white/5 rounded-2xl p-6 text-center card-hover" style="transition-delay:.24s">
+        <div class="w-12 h-12 rounded-full bg-brand-cyan/10 flex items-center justify-center mx-auto mb-4"><i data-lucide="banknote" class="w-5 h-5 text-brand-cyan"></i></div>
+        <h4 class="font-semibold text-sm mb-1">4. Funds Released</h4>
+        <p class="text-text-dim text-xs leading-relaxed">Only after confirmation is money released to the seller.</p>
+      </div>
+    </div>
+    <div class="reveal-on-scroll mt-6 bg-brand-rose/5 border border-brand-rose/10 rounded-2xl p-6 flex gap-4 items-start">
+      <div class="w-10 h-10 rounded-xl bg-brand-rose/10 flex items-center justify-center flex-shrink-0"><i data-lucide="alert-triangle" class="w-5 h-5 text-brand-rose"></i></div>
+      <div>
+        <h4 class="font-semibold text-sm mb-1">Scammed? File a Dispute with Proof</h4>
+        <p class="text-text-dim text-xs leading-relaxed">If the art doesn't match, is damaged, or never arrives — file a dispute with photos, screenshots, and tracking info. Everything is timestamped. Seller must provide counter-proof or escrow funds are returned to you.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<main id="listings" class="py-8 relative">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="flex flex-wrap justify-center gap-2 mb-4" id="categoryFilters">
+      <button class="category-chip active bg-white/5 border border-white/10 rounded-full px-4 py-2 text-sm font-medium" data-cat="all">All</button>
+      <button class="category-chip bg-white/5 border border-white/10 rounded-full px-4 py-2 text-sm font-medium text-text-secondary" data-cat="painting">Paintings</button>
+      <button class="category-chip bg-white/5 border border-white/10 rounded-full px-4 py-2 text-sm font-medium text-text-secondary" data-cat="digital">Digital</button>
+      <button class="category-chip bg-white/5 border border-white/10 rounded-full px-4 py-2 text-sm font-medium text-text-secondary" data-cat="sculpture">Sculpture</button>
+      <button class="category-chip bg-white/5 border border-white/10 rounded-full px-4 py-2 text-sm font-medium text-text-secondary" data-cat="photography">Photo</button>
+      <button class="category-chip bg-white/5 border border-white/10 rounded-full px-4 py-2 text-sm font-medium text-text-secondary" data-cat="illustration">Illustration</button>
+      <button class="category-chip bg-white/5 border border-white/10 rounded-full px-4 py-2 text-sm font-medium text-text-secondary" data-cat="mixed">Mixed</button>
+    </div>
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+      <div class="flex items-center gap-2 flex-wrap">
+        <button id="btnFilterToggle" class="btn-secondary text-text-secondary font-medium text-xs px-4 py-2 rounded-lg flex items-center gap-2"><i data-lucide="sliders-horizontal" class="w-3.5 h-3.5"></i> Filters</button>
+        <button id="btnClearAll" class="text-[10px] text-text-dim hover:text-brand-rose transition-colors hidden">Clear all</button>
+      </div>
+      <select id="sortSelect" class="bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-xs text-text-secondary appearance-none cursor-pointer pr-7" style="background-image:url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%2212%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%2352525B%22 stroke-width=%222%22><polyline points=%226 9 12 15 18 9%22/></svg>');background-repeat:no-repeat;background-position:right 8px center">
+        <option value="">Sort by</option>
+        <option value="price-asc">Price: Low to High</option>
+        <option value="price-desc">Price: High to Low</option>
+        <option value="newest">Newest First</option>
+      </select>
+    </div>
+    <div class="filter-panel" id="filterPanel">
+      <div class="bg-card border border-white/5 rounded-2xl p-6 mb-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div>
+            <h4 class="text-xs font-semibold uppercase tracking-wider text-text-secondary mb-4">Price</h4>
+            <div class="space-y-3">
+              <div><div class="flex justify-between mb-1"><span class="text-[10px] text-text-dim">Min</span><span class="text-xs font-medium text-brand-gold" id="priceMinLabel">$0</span></div><input type="range" min="0" max="5000" step="25" value="0" class="filter-range" id="priceMin"></div>
+              <div><div class="flex justify-between mb-1"><span class="text-[10px] text-text-dim">Max</span><span class="text-xs font-medium text-brand-gold" id="priceMaxLabel">$5,000</span></div><input type="range" min="0" max="5000" step="25" value="5000" class="filter-range" id="priceMax"></div>
+            </div>
+          </div>
+          <div>
+            <h4 class="text-xs font-semibold uppercase tracking-wider text-text-secondary mb-4">Size</h4>
+            <div class="flex flex-wrap gap-2 mb-6" id="sizeFilters">
+              <button class="size-chip btn-secondary text-text-secondary text-xs px-3 py-1.5 rounded-lg" data-size="small">Small</button>
+              <button class="size-chip btn-secondary text-text-secondary text-xs px-3 py-1.5 rounded-lg" data-size="medium">Medium</button>
+              <button class="size-chip btn-secondary text-text-secondary text-xs px-3 py-1.5 rounded-lg" data-size="large">Large</button>
+              <button class="size-chip btn-secondary text-text-secondary text-xs px-3 py-1.5 rounded-lg" data-size="xlarge">XL</button>
+            </div>
+            <h4 class="text-xs font-semibold uppercase tracking-wider text-text-secondary mb-3">Status</h4>
+            <div class="space-y-2">
+              <label class="flex items-center gap-2 cursor-pointer group"><input type="radio" name="statusFilter" value="all" checked class="filter-check" style="border-radius:50%"><span class="text-xs text-text-secondary">All</span></label>
+              <label class="flex items-center gap-2 cursor-pointer group"><input type="radio" name="statusFilter" value="available" class="filter-check" style="border-radius:50%"><span class="text-xs text-text-secondary">Available</span></label>
+              <label class="flex items-center gap-2 cursor-pointer group"><input type="radio" name="statusFilter" value="sold" class="filter-check" style="border-radius:50%"><span class="text-xs text-text-secondary">Sold</span></label>
+            </div>
+          </div>
+          <div>
+            <h4 class="text-xs font-semibold uppercase tracking-wider text-text-secondary mb-4">Medium</h4>
+            <div class="space-y-2" id="mediumFilters">
+              <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="filter-check" value="Oil"><span class="text-xs text-text-secondary">Oil</span></label>
+              <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="filter-check" value="Acrylic"><span class="text-xs text-text-secondary">Acrylic</span></label>
+              <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="filter-check" value="Watercolor"><span class="text-xs text-text-secondary">Watercolor</span></label>
+              <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="filter-check" value="Digital"><span class="text-xs text-text-secondary">Digital</span></label>
+              <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="filter-check" value="Photography"><span class="text-xs text-text-secondary">Photography</span></label>
+            </div>
+            <button id="btnResetFilters" class="w-full btn-secondary text-text-dim text-xs py-2.5 rounded-lg flex items-center justify-center gap-2 hover:text-brand-rose mt-6"><i data-lucide="x" class="w-3 h-3"></i> Reset All</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="text-text-secondary text-sm mb-5" id="listingCount">No artworks yet</p>
+    <div id="emptyState">
+      <div class="bg-card border border-dashed border-white/10 rounded-2xl p-16 text-center">
+        <div class="empty-float inline-block mb-8">
+          <div class="w-20 h-20 rounded-2xl bg-white/[0.02] border border-dashed border-white/10 flex items-center justify-center mx-auto"><i data-lucide="image-plus" class="w-8 h-8 text-text-dim"></i></div>
+        </div>
+        <h2 class="text-2xl font-bold mb-2">Sell Your Art Here</h2>
+        <p class="text-text-secondary text-sm max-w-md mx-auto mb-6">No artworks listed yet. Be the first.</p>
+        <button id="btnEmptySell" class="btn-gold font-bold text-sm uppercase tracking-wide px-8 py-3.5 rounded-xl inline-flex items-center gap-2"><i data-lucide="plus" class="w-4 h-4"></i> Sell Your Art</button>
+      </div>
+    </div>
+    <div id="noResultsState" class="hidden">
+      <div class="bg-card border border-dashed border-white/10 rounded-2xl p-12 text-center">
+        <i data-lucide="search-x" class="w-10 h-10 text-text-dim mx-auto mb-4"></i>
+        <h3 class="text-lg font-semibold mb-2">No matches</h3>
+        <button id="btnNoResultsClear" class="btn-secondary text-white text-sm px-6 py-2.5 rounded-xl inline-flex items-center gap-2 mt-2"><i data-lucide="x" class="w-4 h-4"></i> Clear Filters</button>
+      </div>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 hidden" id="listingsGrid"></div>
+    <div class="text-center mt-10 hidden" id="loadMoreWrap"><button id="btnLoadMore" class="btn-secondary text-white font-medium text-sm px-8 py-3 rounded-xl inline-flex items-center gap-2"><i data-lucide="grid-3x3" class="w-4 h-4"></i> Load More</button></div>
+  </div>
+</main>
+
+<div class="glow-line max-w-5xl mx-auto"></div>
+
+<section class="py-16 relative">
+  <div class="max-w-5xl mx-auto px-6">
+    <div class="reveal-on-scroll text-center mb-14"><h2 class="text-3xl md:text-4xl font-bold tracking-tight mb-3">How to Sell Art</h2><p class="text-text-secondary">Three steps. Escrow-protected.</p></div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="reveal-on-scroll bg-card border border-white/5 rounded-2xl p-8 text-center card-hover group"><div class="w-14 h-14 rounded-xl bg-brand-gold/10 flex items-center justify-center mx-auto mb-5 group-hover:scale-110 transition-transform"><i data-lucide="camera" class="w-6 h-6 text-brand-gold"></i></div><h3 class="font-medium mb-2">Upload</h3><p class="text-text-dim text-sm leading-relaxed">Photograph your artwork. Add medium, size, price.</p></div>
+      <div class="reveal-on-scroll bg-card border border-white/5 rounded-2xl p-8 text-center card-hover group" style="transition-delay:.1s"><div class="w-14 h-14 rounded-xl bg-brand-green/10 flex items-center justify-center mx-auto mb-5 group-hover:scale-110 transition-transform"><i data-lucide="shield-check" class="w-6 h-6 text-brand-green"></i></div><h3 class="font-medium mb-2">Get Paid Safely</h3><p class="text-text-dim text-sm leading-relaxed">Buyer pays into escrow. You ship. Funds release on confirm.</p></div>
+      <div class="reveal-on-scroll bg-card border border-white/5 rounded-2xl p-8 text-center card-hover group" style="transition-delay:.2s"><div class="w-14 h-14 rounded-xl bg-brand-rose/10 flex items-center justify-center mx-auto mb-5 group-hover:scale-110 transition-transform"><i data-lucide="handshake" class="w-6 h-6 text-brand-rose"></i></div><h3 class="font-medium mb-2">Close the Deal</h3><p class="text-text-dim text-sm leading-relaxed">Mark sold when done. All transactions logged.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="py-16 relative overflow-hidden">
+  <div class="absolute inset-0"><div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-brand-gold/5 rounded-full blur-[120px]"></div></div>
+  <div class="max-w-3xl mx-auto px-6 text-center relative z-10 reveal-on-scroll">
+    <h2 class="text-3xl md:text-5xl font-extrabold tracking-tighter leading-tight mb-6">Ready to <span style="background:linear-gradient(to right,#FFC800,#FF3366,#FFC800);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Sell Your Art?</span></h2>
+    <p class="text-text-secondary max-w-lg mx-auto mb-8">Escrow-protected. Scam-proof. Free forever.</p>
+    <button id="btnCtaSell" class="btn-gold font-bold text-sm uppercase tracking-wide px-10 py-4 rounded-xl inline-flex items-center gap-2"><i data-lucide="rocket" class="w-5 h-5"></i> Sell Your Art Now</button>
+  </div>
+</section>
+
+<footer class="border-t border-white/5 py-10">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-3"><div class="w-6 h-6 rounded-md bg-gradient-to-br from-brand-gold to-brand-rose flex items-center justify-center"><i data-lucide="brush" class="w-3 h-3 text-black"></i></div><span class="text-sm font-extrabold">Sell<span class="text-brand-gold">Art</span></span></div>
+      <div class="flex items-center gap-5 text-xs text-text-dim"><a href="#" class="hover:text-brand-gold transition-colors">Privacy</a><a href="#" class="hover:text-brand-gold transition-colors">Terms</a><a href="#" class="hover:text-brand-gold transition-colors">Escrow Policy</a></div>
+    </div>
+  </div>
+</footer>
+
+<div class="modal-overlay fixed inset-0 z-[100] flex items-center justify-center p-4" id="modalDetail">
+  <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" data-close="modalDetail"></div>
+  <div class="modal-content relative bg-surface border border-white/10 rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+    <button data-close="modalDetail" class="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-black/50 backdrop-blur-md flex items-center justify-center hover:bg-white/10 transition-colors"><i data-lucide="x" class="w-5 h-5"></i></button>
+    <div class="grid grid-cols-1 md:grid-cols-2">
+      <div class="aspect-square bg-card relative"><img id="detailImg" src="" class="w-full h-full object-cover rounded-tl-2xl md:rounded-bl-2xl"><div id="detailSoldBadge" class="sold-banner hidden"><span>Sold</span></div></div>
+      <div class="p-8 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center gap-2 mb-4 flex-wrap"><span class="bg-brand-gold/10 text-brand-gold text-xs font-semibold px-3 py-1 rounded-full" id="detailCategory"></span><span class="shield-badge"><i data-lucide="shield-check" class="w-3 h-3"></i> Escrow</span></div>
+          <h2 class="text-2xl md:text-3xl font-semibold tracking-tight mb-2" id="detailTitle"></h2>
+          <p class="text-text-secondary text-sm mb-6 leading-relaxed" id="detailDesc"></p>
+          <div class="flex items-center gap-3 mb-6">
+            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-brand-gold to-brand-rose flex items-center justify-center text-sm font-bold text-black" id="detailAvatar"></div>
+            <div><p class="text-sm font-medium" id="detailArtist"></p><p class="text-xs text-text-dim" id="detailLocation"></p></div>
+          </div>
+          <div class="grid grid-cols-2 gap-3 mb-4">
+            <div class="bg-white/5 rounded-xl p-3"><p class="text-xs text-text-dim mb-1">Size</p><p class="text-sm font-medium" id="detailSize"></p></div>
+            <div class="bg-white/5 rounded-xl p-3"><p class="text-xs text-text-dim mb-1">Medium</p><p class="text-sm font-medium" id="detailMedium"></p></div>
+          </div>
+        </div>
+        <div>
+          <div class="flex items-end gap-3 mb-4"><span class="text-3xl font-semibold text-brand-gold" id="detailPrice"></span><span class="text-text-dim text-xs mb-1">Escrow-protected</span></div>
+          <div class="flex gap-3">
+            <button id="btnDetailBuy" class="btn-green flex-1 font-bold text-sm py-3.5 rounded-xl flex items-center justify-center gap-2"><i data-lucide="shield-check" class="w-4 h-4"></i> Buy with Escrow</button>
+            <button id="btnDetailContact" class="btn-secondary px-4 py-3.5 rounded-xl flex items-center justify-center"><i data-lucide="send" class="w-5 h-5 text-text-secondary"></i></button>
+            <button id="btnDetailLike" class="btn-secondary px-4 py-3.5 rounded-xl flex items-center justify-center"><i data-lucide="heart" class="w-5 h-5 text-text-secondary"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay fixed inset-0 z-[120] flex items-center justify-center p-4" id="modalEscrow">
+  <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" data-close="modalEscrow"></div>
+  <div class="modal-content relative bg-surface border border-white/10 rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto">
+    <div class="p-8">
+      <div class="flex items-center justify-between mb-6">
+        <div><h2 class="text-xl font-semibold flex items-center gap-2"><i data-lucide="shield-check" class="w-5 h-5 text-brand-green"></i> Escrow Payment</h2><p class="text-text-dim text-xs mt-1">Money held safely until you confirm</p></div>
+        <button data-close="modalEscrow" class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10"><i data-lucide="x" class="w-4 h-4"></i></button>
+      </div>
+      <div class="bg-brand-green/5 border border-brand-green/15 rounded-xl p-4 mb-6 flex gap-3 items-start"><i data-lucide="info" class="w-4 h-4 text-brand-green flex-shrink-0 mt-0.5"></i><p class="text-xs text-text-secondary leading-relaxed"><strong class="text-brand-green">How it works:</strong> Payment is held in escrow. Seller ships. You inspect. If it matches, confirm and funds release. If not, file a dispute with proof.</p></div>
+      <div class="flex items-center gap-3 mb-6 p-3 bg-white/5 rounded-xl"><img id="escrowImg" src="" class="w-14 h-14 rounded-lg object-cover"><div class="flex-1 min-w-0"><p class="text-sm font-medium truncate" id="escrowTitle"></p><p class="text-xs text-text-dim" id="escrowArtist"></p></div><span class="text-brand-gold font-bold text-lg" id="escrowPrice"></span></div>
+      <form id="formEscrow" class="space-y-4">
+        <div><label class="block text-sm font-medium text-text-secondary mb-2">Offer Amount ($)</label><input type="number" id="escrowAmount" required min="1" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-text-dim"></div>
+        <div><label class="block text-sm font-medium text-text-secondary mb-2">Payment Method</label>
+          <div class="grid grid-cols-3 gap-2">
+            <label class="cursor-pointer"><input type="radio" name="payMethod" value="card" checked class="hidden peer"><div class="peer-checked:border-brand-gold peer-checked:bg-brand-gold/10 border border-white/10 rounded-xl p-3 text-center transition-all"><i data-lucide="credit-card" class="w-5 h-5 mx-auto mb-1 text-text-dim"></i><span class="text-[10px] text-text-dim block">Card</span></div></label>
+            <label class="cursor-pointer"><input type="radio" name="payMethod" value="bank" class="hidden peer"><div class="peer-checked:border-brand-gold peer-checked:bg-brand-gold/10 border border-white/10 rounded-xl p-3 text-center transition-all"><i data-lucide="landmark" class="w-5 h-5 mx-auto mb-1 text-text-dim"></i><span class="text-[10px] text-text-dim block">Bank</span></div></label>
+            <label class="cursor-pointer"><input type="radio" name="payMethod" value="crypto" class="hidden peer"><div class="peer-checked:border-brand-gold peer-checked:bg-brand-gold/10 border border-white/10 rounded-xl p-3 text-center transition-all"><i data-lucide="bitcoin" class="w-5 h-5 mx-auto mb-1 text-text-dim"></i><span class="text-[10px] text-text-dim block">Crypto</span></div></label>
+          </div>
+        </div>
+        <div><label class="block text-sm font-medium text-text-secondary mb-2">Shipping Address</label><textarea id="escrowAddress" required rows="2" placeholder="Full address" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-text-dim resize-none"></textarea></div>
+        <div class="flex items-start gap-3 p-3 bg-white/5 rounded-xl"><input type="checkbox" id="escrowAgree" required class="filter-check mt-0.5"><label for="escrowAgree" class="text-xs text-text-secondary leading-relaxed cursor-pointer">I understand my payment is held in escrow until I confirm the art matches. I can file a dispute with proof if scammed.</label></div>
+        <button type="submit" class="btn-green w-full font-bold text-sm py-4 rounded-xl flex items-center justify-center gap-2"><i data-lucide="lock" class="w-5 h-5"></i> Pay into Escrow</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay fixed inset-0 z-[100] flex items-center justify-center p-4" id="modalTx">
+  <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" data-close="modalTx"></div>
+  <div class="modal-content relative bg-surface border border-white/10 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+    <div class="p-8">
+      <div class="flex items-center justify-between mb-6"><h2 class="text-xl font-semibold flex items-center gap-2"><i data-lucide="shield-check" class="w-5 h-5 text-brand-green"></i> Transactions</h2><button data-close="modalTx" class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10"><i data-lucide="x" class="w-4 h-4"></i></button></div>
+      <div id="txList"></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay fixed inset-0 z-[130] flex items-center justify-center p-4" id="modalDispute">
+  <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" data-close="modalDispute"></div>
+  <div class="modal-content relative bg-surface border border-brand-rose/20 rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto">
+    <div class="p-8">
+      <div class="flex items-center justify-between mb-6">
+        <div><h2 class="text-xl font-semibold flex items-center gap-2 text-brand-rose"><i data-lucide="alert-triangle" class="w-5 h-5"></i> File Dispute</h2><p class="text-text-dim text-xs mt-1">Provide proof — this is your protection</p></div>
+        <button data-close="modalDispute" class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10"><i data-lucide="x" class="w-4 h-4"></i></button>
+      </div>
+      <div class="bg-brand-rose/5 border border-brand-rose/15 rounded-xl p-4 mb-6"><p class="text-xs text-text-secondary leading-relaxed"><strong class="text-brand-rose">Important:</strong> All evidence is timestamped. The more proof (photos, screenshots, tracking), the stronger your case.</p></div>
+      <div class="flex items-center gap-3 mb-6 p-3 bg-white/5 rounded-xl"><img id="disputeImg" src="" class="w-12 h-12 rounded-lg object-cover"><div class="flex-1 min-w-0"><p class="text-sm font-medium truncate" id="disputeTitle"></p><p class="text-xs text-text-dim" id="disputePrice"></p></div></div>
+      <form id="formDispute" class="space-y-4">
+        <div><label class="block text-sm font-medium text-text-secondary mb-2">Reason *</label><select id="disputeReason" required class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white appearance-none cursor-pointer"><option value="" class="bg-surface">Select...</option><option value="not_as_described" class="bg-surface">Not as described</option><option value="damaged" class="bg-surface">Arrived damaged</option><option value="never_arrived" class="bg-surface">Never arrived</option><option value="fake" class="bg-surface">Suspected fake/AI</option><option value="wrong" class="bg-surface">Wrong item</option><option value="other" class="bg-surface">Other</option></select></div>
+        <div><label class="block text-sm font-medium text-text-secondary mb-2">Description *</label><textarea id="disputeDesc" required rows="3" placeholder="Explain what happened..." class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-text-dim resize-none"></textarea></div>
+        <div>
+          <label class="block text-sm font-medium text-text-secondary mb-2">Evidence (photos/screenshots) *</label>
+          <div class="evidence-upload" id="evidenceDrop"><i data-lucide="upload" class="w-8 h-8 text-text-dim mx-auto mb-2"></i><p class="text-xs text-text-dim">Click to upload — up to 5 images</p><input type="file" id="evidenceInput" multiple accept="image/*" class="hidden"></div>
+          <div class="grid grid-cols-5 gap-2 mt-3" id="evidencePreview"></div>
+        </div>
+        <button type="submit" class="btn-rose w-full font-bold text-sm py-4 rounded-xl flex items-center justify-center gap-2"><i data-lucide="gavel" class="w-5 h-5"></i> Submit Dispute</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay fixed inset-0 z-[140] flex items-center justify-center p-4" id="modalDisputeView">
+  <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" data-close="modalDisputeView"></div>
+  <div class="modal-content relative bg-surface border border-brand-rose/20 rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto">
+    <div class="p-8">
+      <div class="flex items-center justify-between mb-6"><h2 class="text-xl font-semibold flex items-center gap-2 text-brand-rose"><i data-lucide="file-text" class="w-5 h-5"></i> Dispute</h2><button data-close="modalDisputeView" class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10"><i data-lucide="x" class="w-4 h-4"></i></button></div>
+      <div id="disputeViewContent"></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay fixed inset-0 z-[110] flex items-center justify-center p-4" id="modalContact">
+  <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" data-close="modalContact"></div>
+  <div class="modal-content relative bg-surface border border-white/10 rounded-2xl max-w-lg w-full max-h-[90vh] overflow-hidden flex flex-col">
+    <div class="p-6 border-b border-white/5 flex items-center justify-between flex-shrink-0">
+      <div class="flex items-center gap-3"><div class="w-10 h-10 rounded-full bg-gradient-to-br from-brand-gold to-brand-rose flex items-center justify-center text-sm font-bold text-black" id="contactAvatar"></div><div><p class="font-medium text-sm" id="contactName"></p><p class="text-xs text-text-dim" id="contactArtTitle"></p></div></div>
+      <button data-close="modalContact" class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10"><i data-lucide="x" class="w-4 h-4"></i></button>
+    </div>
+    <div class="flex-1 overflow-y-auto p-6 space-y-4 msg-scroll" id="chatMessages"></div>
+    <div class="p-4 border-t border-white/5 flex-shrink-0">
+      <form id="formChat" class="flex gap-2"><input type="text" id="msgInput" placeholder="Type a message..." required autocomplete="off" class="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-text-dim"><button type="submit" class="btn-gold px-4 py-3 rounded-xl flex items-center justify-center"><i data-lucide="send" class="w-5 h-5"></i></button></form>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay fixed inset-0 z-[100] flex items-center justify-center p-4" id="modalInbox">
+  <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" data-close="modalInbox"></div>
+  <div class="modal-content relative bg-surface border border-white/10 rounded-2xl max-w-lg w-full max-h-[80vh] overflow-hidden flex flex-col">
+    <div class="p-6 border-b border-white/5 flex items-center justify-between flex-shrink-0"><h3 class="font-semibold text-lg">Messages</h3><button data-close="modalInbox" class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10"><i data-lucide="x" class="w-4 h-4"></i></button></div>
+    <div class="flex-1 overflow-y-auto p-6 msg-scroll" id="inboxList"><div class="text-center py-12"><i data-lucide="inbox" class="w-10 h-10 text-text-dim mx-auto mb-3"></i><p class="text-text-dim text-sm">No messages yet</p></div></div>
+  </div>
+</div>
+
+<div class="modal-overlay fixed inset-0 z-[100] flex items-center justify-center p-4" id="modalSell">
+  <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" data-close="modalSell"></div>
+  <div class="modal-content relative bg-surface border border-white/10 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+    <div class="p-8">
+      <div class="flex items-center justify-between mb-8">
+        <div><h2 class="text-2xl font-semibold tracking-tight">List Your Art</h2><p class="text-text-secondary text-sm mt-1">Escrow-protected payments</p></div>
+        <button data-close="modalSell" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+      <form id="formSell" class="space-y-5">
+        <div><label class="block text-sm font-medium text-text-secondary mb-2">Title *</label><input type="text" id="sellTitle" required placeholder="e.g. Sunset Over the Mountains" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-text-dim"></div>
+        <div class="grid grid-cols-2 gap-4">
+          <div><label class="block text-sm font-medium text-text-secondary mb-2">Category *</label><select id="sellCategory" required class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white appearance-none cursor-pointer"><option value="" class="bg-surface">Select...</option><option value="painting" class="bg-surface">Painting</option><option value="digital" class="bg-surface">Digital</option><option value="sculpture" class="bg-surface">Sculpture</option><option value="photography" class="bg-surface">Photography</option><option value="illustration" class="bg-surface">Illustration</option><option value="mixed" class="bg-surface">Mixed</option></select></div>
+          <div><label class="block text-sm font-medium text-text-secondary mb-2">Price ($) *</label><input type="number" id="sellPrice" required min="0" placeholder="250" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-text-dim"></div>
+        </div>
+        <div><label class="block text-sm font-medium text-text-secondary mb-2">Medium *</label><input type="text" id="sellMedium" required placeholder="Oil on canvas" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-text-dim"></div>
+        <div><label class="block text-sm font-medium text-text-secondary mb-2">Size *</label><input type="text" id="sellSize" required placeholder='24" x 36"' class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-text-dim"></div>
+        <div><label class="block text-sm font-medium text-text-secondary mb-2">Your Name *</label><input type="text" id="sellArtistName" required placeholder="Your name" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-text-dim"></div>
+        <div><label class="block text-sm font-medium text-text-secondary mb-2">Location</label><input type="text" id="sellLocation" placeholder="Portland, OR" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-text-dim"></div>
+        <div><label class="block text-sm font-medium text-text-secondary mb-2">Description *</label><textarea id="sellDesc" required rows="3" placeholder="What inspired this?" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-text-dim resize-none"></textarea></div>
+        <div><label class="block text-sm font-medium text-text-secondary mb-2">Photo URL *</label><input type="url" id="sellImage" required placeholder="Direct image link" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-text-dim"></div>
+        <div class="flex items-start gap-3 p-4 bg-brand-rose/5 border border-brand-rose/10 rounded-xl"><i data-lucide="shield-alert" class="w-5 h-5 text-brand-rose flex-shrink-0 mt-0.5"></i><p class="text-xs text-text-secondary leading-relaxed"><strong class="text-brand-rose">Human-made only.</strong> Buyers can dispute with proof if art doesn't match.</p></div>
+        <button type="submit" class="btn-gold w-full font-bold text-sm py-4 rounded-xl flex items-center justify-center gap-2"><i data-lucide="rocket" class="w-5 h-5"></i> Publish Listing</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay fixed inset-0 z-[100] flex items-center justify-center p-4" id="modalProfile">
+  <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" data-close="modalProfile"></div>
+  <div class="modal-content relative bg-surface border border-white/10 rounded-2xl max-w-md w-full overflow-hidden">
+    <div class="h-20 bg-gradient-to-r from-brand-gold to-brand-rose"></div>
+    <div class="px-8 pb-8 -mt-10">
+      <div class="w-16 h-16 rounded-xl bg-gradient-to-br from-brand-gold to-brand-rose flex items-center justify-center text-xl font-bold text-black border-4 border-surface" id="profileAvatar">A</div>
+      <h3 class="text-lg font-semibold mb-0.5 mt-3" id="profileName">Anonymous Artist</h3>
+      <p class="text-text-dim text-xs mb-5" id="profileHint">Set up your profile</p>
+      <div class="space-y-2 mb-5">
+        <div class="flex justify-between py-1.5 border-b border-white/5"><span class="text-text-secondary text-xs">Listings</span><span class="font-medium text-xs" id="pListings">0</span></div>
+        <div class="flex justify-between py-1.5 border-b border-white/5"><span class="text-text-secondary text-xs">Sold</span><span class="font-medium text-xs" id="pSold">0</span></div>
+        <div class="flex justify-between py-1.5 border-b border-white/5"><span class="text-text-secondary text-xs">Transactions</span><span class="font-medium text-xs" id="pTx">0</span></div>
+        <div class="flex justify-between py-1.5"><span class="text-text-secondary text-xs">Disputes</span><span class="font-medium text-xs" id="pDisputes">0</span></div>
+      </div>
+      <button id="btnProfileEdit" class="btn-secondary w-full text-white font-medium text-sm py-2.5 rounded-xl flex items-center justify-center gap-2"><i data-lucide="settings" class="w-4 h-4"></i> Edit Profile</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+'use strict';
+var artworks=[],conversations={},transactions=[],disputes=[],evidenceFiles=[];
+var displayCount=12,currentCategory='all',likedItems=new Set(),currentSort=null,currentDetailId=null,selectedSizes=new Set(),myName='';
+function $(id){return document.getElementById(id)}
+function $q(s){return document.querySelector(s)}
+function $qa(s){return document.querySelectorAll(s)}
+function showToast(msg,type){type=type||'info';var c=$('toastContainer'),t=document.createElement('div');t.className='toast';var ic=type==='success'?'check-circle':type==='error'?'alert-circle':'info';var cl=type==='success'?'#22C55E':type==='error'?'#FF3366':'#0091FF';t.innerHTML='<i data-lucide="'+ic+'" style="color:'+cl+'" class="w-5 h-5 flex-shrink-0"></i><span class="text-sm">'+msg+'</span>';c.appendChild(t);lucide.createIcons();setTimeout(function(){if(t.parentNode)t.remove()},3200)}
+function openModal(id){$(id).classList.add('open');document.body.style.overflow='hidden'}
+function closeModal(id){$(id).classList.remove('open');document.body.style.overflow=''}
+function getSizeCat(s){var m=s&&s.match(/(\d+)/);if(!m)return'medium';var n=parseInt(m[1]);if(n<12)return'small';if(n<=24)return'medium';if(n<=48)return'large';return'xlarge'}
+document.addEventListener('click',function(e){var el=e.target.closest('[data-close]');if(el)closeModal(el.dataset.close)});
+function getFilterState(){var mn=parseInt($('priceMin').value)||0,mx=parseInt($('priceMax').value)||5000;var meds=[];$qa('#mediumFilters .filter-check:checked').forEach(function(c){meds.push(c.value)});var st=($q('input[name="statusFilter"]:checked')||{}).value||'all';return{minPrice:Math.min(mn,mx),maxPrice:Math.max(mn,mx),mediums:meds,sizes:Array.from(selectedSizes),status:st}}
+function clearAllFilters(){$('priceMin').value=0;$('priceMax').value=5000;$q('input[name="statusFilter"][value="all"]').checked=true;$qa('#mediumFilters .filter-check').forEach(function(c){c.checked=false});$qa('.size-chip').forEach(function(b){b.classList.remove('active');b.style.background='';b.style.borderColor='';b.style.color=''});selectedSizes.clear();filterCategory('all',$q('[data-cat="all"]'));$('sortSelect').value='';currentSort=null;updatePriceLabels();applyFilters()}
+function updatePriceLabels(){$('priceMinLabel').textContent='$'+parseInt($('priceMin').value||0).toLocaleString();$('priceMaxLabel').textContent='$'+parseInt($('priceMax').value||5000).toLocaleString()}
+function toggleSize(btn){var s=btn.dataset.size;if(selectedSizes.has(s)){selectedSizes.delete(s);btn.classList.remove('active');btn.style.background='';btn.style.borderColor='';btn.style.color=''}else{selectedSizes.add(s);btn.classList.add('active');btn.style.background='rgba(255,200,0,.15)';btn.style.borderColor='#FFC800';btn.style.color='#FFC800'}applyFilters()}
+function filterCategory(cat,btn){currentCategory=cat;$qa('.category-chip').forEach(function(c){c.classList.remove('active');c.style.background='';c.style.borderColor='';c.style.color=''});if(btn){btn.classList.add('active');btn.style.background='rgba(255,200,0,.15)';btn.style.borderColor='#FFC800';btn.style.color='#FFC800'}applyFilters()}
+function getFiltered(){var f=getFilterState();var search=(($q('#searchInput').value||'')+($q('#searchInputMobile').value||'')).trim().toLowerCase();return artworks.filter(function(a){if(currentCategory!=='all'&&a.category!==currentCategory)return false;if(a.price<f.minPrice||a.price>f.maxPrice)return false;if(f.sizes.length>0&&f.sizes.indexOf(a.sizeCat)===-1)return false;if(f.mediums.length>0&&!f.mediums.some(function(m){return a.medium.toLowerCase().indexOf(m.toLowerCase())!==-1}))return false;if(f.status==='available'&&a.sold)return false;if(f.status==='sold'&&!a.sold)return false;if(search){var h=(a.title+' '+a.medium+' '+a.desc+' '+a.artist+' '+(a.location||'')+' '+a.category).toLowerCase();if(h.indexOf(search)===-1)return false}return true}).sort(function(a,b){if(currentSort==='price-asc')return a.price-b.price;if(currentSort==='price-desc')return b.price-a.price;if(currentSort==='newest')return b.createdAt-a.createdAt;return 0})}
+function applyFilters(){var filtered=getFiltered(),showing=filtered.slice(0,displayCount);var grid=$('listingsGrid'),empty=$('emptyState'),noR=$('noResultsState'),cnt=$('listingCount'),lm=$('loadMoreWrap');if(artworks.length===0){empty.classList.remove('hidden');noR.classList.add('hidden');grid.classList.add('hidden');lm.classList.add('hidden');cnt.textContent='No artworks yet'}else if(filtered.length===0){empty.classList.add('hidden');noR.classList.remove('hidden');grid.classList.add('hidden');lm.classList.add('hidden');cnt.textContent='No matches'}else{empty.classList.add('hidden');noR.classList.add('hidden');grid.classList.remove('hidden');cnt.textContent='Showing '+showing.length+' of '+filtered.length;lm.classList.toggle('hidden',showing.length>=filtered.length)}grid.innerHTML=showing.map(function(a){return'<div class="art-card card-hover bg-card border border-white/5 rounded-2xl overflow-hidden cursor-pointer group" data-id="'+a.id+'"><div class="aspect-square bg-surface relative img-shine"><img src="'+a.image+'" alt="" class="w-full h-full object-cover" loading="lazy" onerror="this.src=\'https://picsum.photos/seed/'+a.id+'/400/400.jpg\'">'+(a.sold?'<div class="sold-banner"><span>Sold</span></div>':'')+'<button class="like-btn absolute top-3 right-3 w-8 h-8 rounded-full bg-black/40 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity '+(likedItems.has(a.id)?'liked':'')+'" data-like="'+a.id+'"><i data-lucide="heart" class="w-4 h-4"></i></button><div class="absolute bottom-3 left-3 shield-badge text-[9px]"><i data-lucide="shield-check" class="w-2.5 h-2.5"></i> Escrow</div></div><div class="p-4"><span class="bg-brand-gold/10 text-brand-gold text-[10px] font-semibold px-2 py-0.5 rounded-full">'+a.category+'</span><h3 class="font-semibold text-sm mt-2 mb-1 truncate">'+a.title+'</h3><p class="text-text-dim text-xs mb-3 truncate">'+a.medium+' · '+a.size+'</p><div class="flex items-center justify-between"><span class="text-brand-gold font-bold text-sm">$'+a.price.toLocaleString()+'</span><span class="text-[10px] text-text-dim">'+(a.artist?a.artist.split(' ')[0]:'?')+'</span></div></div></div>'}).join('');lucide.createIcons();updateStats()}
+function updateStats(){var a2=new Set();artworks.forEach(function(a){a2.add(a.artist)});$('statArtworks').textContent=artworks.length;$('statArtists').textContent=a2.size;$('statSold').textContent=artworks.filter(function(a){return a.sold}).length;var esc=0;transactions.forEach(function(t){if(t.status==='escrowed'||t.status==='shipped')esc+=t.amount});$('statProtected').textContent='$'+esc.toLocaleString();$('heroOnlineCount').textContent=a2.size===0?'Be the first to join':a2.size+' artist'+(a2.size>1?'s':'')+' online';var active=transactions.filter(function(t){return t.status!=='released'&&t.status!=='refunded'}).length;if(active>0){$('txBadge').classList.remove('hidden');$('txBadge').textContent=active}else{$('txBadge').classList.add('hidden')}}
+function openDetail(id){var a=artworks.find(function(x){return x.id===id});if(!a)return;currentDetailId=id;$('detailImg').src=a.image;$('detailTitle').textContent=a.title;$('detailDesc').textContent=a.desc;$('detailCategory').textContent=a.category;$('detailArtist').textContent=a.artist;$('detailLocation').textContent=a.location||'Location not set';$('detailSize').textContent=a.size;$('detailMedium').textContent=a.medium;$('detailPrice').textContent='$'+a.price.toLocaleString();$('detailAvatar').textContent=a.artist?a.artist[0]:'?';$('detailSoldBadge').classList.toggle('hidden',!a.sold);$('btnDetailBuy').style.display=a.sold?'none':'';$('btnDetailLike').className='btn-secondary px-4 py-3.5 rounded-xl flex items-center justify-center'+(likedItems.has(id)?' liked':'');openModal('modalDetail')}
+function toggleLike(id){if(likedItems.has(id))likedItems.delete(id);else likedItems.add(id);applyFilters()}
+function openEscrow(){var a=artworks.find(function(x){return x.id===currentDetailId});if(!a)return;$('escrowImg').src=a.image;$('escrowTitle').textContent=a.title;$('escrowArtist').textContent=a.artist;$('escrowPrice').textContent='$'+a.price.toLocaleString();$('escrowAmount').value=a.price;openModal('modalEscrow')}
+function submitEscrow(e){e.preventDefault();var a=artworks.find(function(x){return x.id===currentDetailId});if(!a)return;var amount=parseInt($('escrowAmount').value)||0;if(amount<1){showToast('Enter a valid amount','error');return}transactions.push({id:'tx_'+Date.now(),artworkId:currentDetailId,title:a.title,artist:a.artist,image:a.image,amount:amount,status:'escrowed',createdAt:Date.now(),disputeId:null});e.target.reset();closeModal('modalEscrow');closeModal('modalDetail');showToast('$'+amount.toLocaleString()+' held in escrow!','success');updateStats()}
+function renderTx(){var list=$('txList');if(transactions.length===0){list.innerHTML='<div class="text-center py-12"><i data-lucide="shield-check" class="w-10 h-10 text-text-dim mx-auto mb-3"></i><p class="text-text-dim text-sm">No transactions yet</p></div>';lucide.createIcons();return}var steps=['escrowed','shipped','delivered','released'];var labels=['Paid','Shipped','Confirmed','Released'];list.innerHTML=transactions.slice().reverse().map(function(tx){var si=steps.indexOf(tx.status);if(tx.status==='refunded')si=-1;if(tx.status==='disputed')si=-1;var dots=labels.map(function(l,i){var cls=si>i?'done':si===i?'active':'pending';return'<div class="flex flex-col items-center"><div class="step-dot '+cls+'">'+(si>i?'✓':(i+1))+'</div><span class="text-[9px] text-text-dim mt-1">'+l+'</span></div>'}).join('<div class="step-line '+(si>0?'done':'')+'"></div>');var badge='';if(tx.status==='released')badge='<span class="shield-badge text-[9px]">Released</span>';else if(tx.status==='refunded')badge='<span class="inline-flex items-center gap-1 bg-brand-rose/10 border border-brand-rose/20 text-brand-rose text-[9px] font-semibold px-2 py-0.5 rounded-full">Refunded</span>';else if(tx.status==='disputed')badge='<span class="inline-flex items-center gap-1 bg-brand-rose/10 border border-brand-rose/20 text-brand-rose text-[9px] font-semibold px-2 py-0.5 rounded-full">Disputed</span>';else badge='<span class="inline-flex items-center gap-1 bg-brand-gold/10 border border-brand-gold/20 text-brand-gold text-[9px] font-semibold px-2 py-0.5 rounded-full">In Progress</span>';var actions='';if(tx.status==='escrowed')actions='<button class="btn-secondary text-text-secondary text-xs px-3 py-2 rounded-lg" data-action="ship" data-txid="'+tx.id+'"><i data-lucide="truck" class="w-3 h-3"></i> Mark Shipped</button>';if(tx.status==='shipped')actions='<button class="btn-green text-xs px-3 py-2 rounded-lg font-semibold" data-action="confirm" data-txid="'+tx.id+'"><i data-lucide="check-circle" class="w-3 h-3"></i> Confirm</button><button class="btn-rose text-xs px-3 py-2 rounded-lg font-semibold" data-action="dispute" data-txid="'+tx.id+'"><i data-lucide="gavel" class="w-3 h-3"></i> Dispute</button>';if(tx.status==='disputed'&&tx.disputeId)actions='<button class="btn-secondary text-text-secondary text-xs px-3 py-2 rounded-lg" data-action="viewdisp" data-dispid="'+tx.disputeId+'"><i data-lucide="file-text" class="w-3 h-3"></i> View Dispute</button>';return'<div class="tx-card mb-4"><div class="flex items-center gap-3 mb-4"><img src="'+tx.image+'" class="w-12 h-12 rounded-lg object-cover"><div class="flex-1 min-w-0"><p class="text-sm font-medium truncate">'+tx.title+'</p><p class="text-xs text-text-dim">'+tx.artist+'</p></div><div class="text-right"><p class="text-brand-gold font-bold">$'+tx.amount.toLocaleString()+'</p>'+badge+'</div></div><div class="flex items-center gap-0 mb-4 px-2">'+dots+'</div>'+(actions?'<div class="flex gap-2">'+actions+'</div>':'')+'</div>'}).join('');lucide.createIcons()}
+function openDispute(txId){var tx=transactions.find(function(t){return t.id===txId});if(!tx)return;$('disputeImg').src=tx.image;$('disputeTitle').textContent=tx.title;$('disputePrice').textContent='$'+tx.amount.toLocaleString()+' · '+tx.artist;evidenceFiles=[];renderEvidence();$('formDispute').reset();openModal('modalDispute')}
+function renderEvidence(){$('evidencePreview').innerHTML=evidenceFiles.map(function(f,i){return'<div class="evidence-thumb"><img src="'+f.data+'"><div class="ev-remove" data-rmev="'+i+'"><i data-lucide="x" class="w-3 h-3"></i></div></div>'}).join('');lucide.createIcons()}
+function submitDispute(e){e.preventDefault();if(evidenceFiles.length===0){showToast('Upload at least one evidence file','error');return}var tx=transactions.find(function(t){return t.id===currentDetailId});if(!tx){closeModal('modalDispute');return}var d={id:'disp_'+Date.now(),txId:tx.id,reason:$('disputeReason').value,description:$('disputeDesc').value.trim(),evidence:evidenceFiles.map(function(f){return{data:f.data,name:f.name,ts:new Date().toISOString()}}),status:'open',createdAt:Date.now()};disputes.push(d);tx.status='disputed';tx.disputeId=d.id;e.target.reset();evidenceFiles=[];closeModal('modalDispute');showToast('Dispute filed with '+d.evidence.length+' evidence(s). Escrow frozen.','success');updateStats();renderTx()}
+function viewDispute(dispId){var d=disputes.find(function(x){return x.id===dispId});if(!d)return;var tx=transactions.find(function(t){return t.id===d.txId});var reasonMap={'not_as_described':'Not as described','damaged':'Damaged','never_arrived':'Never arrived','fake':'Suspected fake/AI','wrong':'Wrong item','other':'Other'};var html='<div class="bg-brand-rose/5 border border-brand-rose/15 rounded-xl p-4 mb-4"><div class="flex items-center justify-between mb-2"><span class="text-brand-rose text-xs font-semibold uppercase">#'+d.id.slice(-6)+'</span><span class="shield-badge text-[9px]" style="background:rgba(255,200,0,.1);border-color:rgba(255,200,0,.2);color:#FFC800">Open</span></div><p class="text-sm font-medium mb-1">'+(reasonMap[d.reason]||d.reason)+'</p><p class="text-text-dim text-xs leading-relaxed">'+d.description+'</p><p class="text-[10px] text-text-dim mt-2">Filed: '+new Date(d.createdAt).toLocaleString()+'</p></div>';if(tx)html+='<div class="flex items-center gap-3 mb-4 p-3 bg-white/5 rounded-xl"><img src="'+tx.image+'" class="w-10 h-10 rounded-lg object-cover"><div><p class="text-sm font-medium truncate">'+tx.title+'</p><p class="text-xs text-text-dim">$'+tx.amount.toLocaleString()+' escrowed</p></div></div>';html+='<h4 class="text-xs font-semibold uppercase tracking-wider text-text-secondary mb-3">Evidence ('+d.evidence.length+')</h4>';html+='<div class="grid grid-cols-3 gap-2 mb-4">'+d.evidence.map(function(ev){return'<div class="rounded-lg overflow-hidden border border-white/10"><img src="'+ev.data+'" class="w-full aspect-square object-cover"><div class="bg-white/5 px-2 py-1"><p class="text-[9px] text-text-dim truncate">'+ev.name+'</p><p class="text-[8px] text-text-dim">'+new Date(ev.ts).toLocaleString()+'</p></div></div>'}).join('')+'</div>';html+='<div class="bg-brand-green/5 border border-brand-green/15 rounded-xl p-4"><p class="text-xs text-text-secondary leading-relaxed"><strong class="text-brand-green">Next:</strong> Seller must provide counter-proof within 7 days or escrow funds ($'+(tx?tx.amount:0)+') are returned.</p></div>';$('disputeViewContent').innerHTML=html;openModal('modalDisputeView');lucide.createIcons()}
+function openContact(){var a=artworks.find(function(x){return x.id===currentDetailId});if(!a)return;$('contactAvatar').textContent=a.artist?a.artist[0]:'?';$('contactName').textContent=a.artist;$('contactArtTitle').textContent=a.title;var cid='c_'+currentDetailId;if(!conversations[cid])conversations[cid]={artworkId:currentDetailId,artist:a.artist,messages:[]};renderChat(cid);openModal('modalContact')}
+function renderChat(cid){var conv=conversations[cid],c=$('chatMessages');if(!conv||conv.messages.length===0){c.innerHTML='<div class="text-center py-8"><p class="text-text-dim text-xs">Start the conversation</p></div>'}else{c.innerHTML=conv.messages.map(function(m){if(m.from==='seller')return'<div class="flex justify-start"><div class="chat-bubble-seller px-4 py-2.5 max-w-[80%]"><p class="text-sm">'+m.text+'</p><p class="text-[10px] text-text-dim mt-1">'+m.time+'</p></div></div>';return'<div class="flex justify-end"><div class="chat-bubble-out px-4 py-2.5 max-w-[80%]"><p class="text-sm">'+m.text+'</p><p class="text-[10px] text-text-dim mt-1">'+m.time+'</p></div></div>'}).join('')}c.scrollTop=c.scrollHeight}
+function sendMsg(e){e.preventDefault();var inp=$('msgInput'),txt=inp.value.trim();if(!txt||!currentDetailId)return;var cid='c_'+currentDetailId;if(!conversations[cid])return;conversations[cid].messages.push({from:'buyer',text:txt,time:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})});inp.value='';renderChat(cid);setTimeout(function(){var r=['Thanks for your interest!','Happy to discuss price.','I can ship anywhere.','Sure, more photos available.','That\'s kind!'];conversations[cid].messages.push({from:'seller',text:r[Math.floor(Math.random()*r.length)],time:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})});renderChat(cid)},1500+Math.random()*2000)}
+function openInbox(){var list=$('inboxList'),convs=Object.values(conversations).filter(function(c){return c.messages.length>0});if(convs.length===0){list.innerHTML='<div class="text-center py-12"><i data-lucide="inbox" class="w-10 h-10 text-text-dim mx-auto mb-3"></i><p class="text-text-dim text-sm">No messages yet</p></div>'}else{list.innerHTML=convs.map(function(c){var lm=c.messages[c.messages.length-1];return'<div class="inbox-item flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 cursor-pointer" data-conv="'+c.artworkId+'"><div class="w-10 h-10 rounded-full bg-gradient-to-br from-brand-gold to-brand-rose flex items-center justify-center text-sm font-bold text-black flex-shrink-0">'+(c.artist?c.artist[0]:'?')+'</div><div class="flex-1 min-w-0"><p class="text-sm font-medium truncate">'+c.artist+'</p><p class="text-xs text-text-dim truncate">'+lm.text+'</p></div></div>'}).join('')}openModal('modalInbox');lucide.createIcons()}
+function submitSell(e){e.preventDefault();var t=$('sellTitle').value.trim(),cat=$('sellCategory').value,p=parseInt($('sellPrice').value)||0,m=$('sellMedium').value.trim(),s=$('sellSize').value.trim(),a=$('sellArtistName').value.trim(),l=$('sellLocation').value.trim(),d=$('sellDesc').value.trim(),img=$('sellImage').value.trim();if(!t||!cat||!p||!m||!s||!a||!d||!img){showToast('Fill all required fields','error');return}artworks.push({id:'a_'+Date.now(),title:t,category:cat,price:p,medium:m,size:s,sizeCat:getSizeCat(s),artist:a,location:l,desc:d,image:img,sold:false,createdAt:Date.now()});myName=a;$('btnNavProfile').textContent=a[0];$('profileAvatar').textContent=a[0];$('profileName').textContent=a;$('profileHint').textContent='Artist profile';e.target.reset();closeModal('modalSell');applyFilters();showToast('Artwork listed!','success');$('listings').scrollIntoView({behavior:'smooth'})}
+function openProfile(){var my=artworks.filter(function(a){return a.artist===myName});$('pListings').textContent=my.length;$('pSold').textContent=my.filter(function(a){return a.sold}).length;$('pTx').textContent=transactions.length;$('pDisputes').textContent=disputes.length;openModal('modalProfile')}
+function init(){$('btnNavSell').addEventListener('click',function(){openModal('modalSell')});$('btnNavTx').addEventListener('click',function(){renderTx();openModal('modalTx')});$('btnNavInbox').addEventListener('click',openInbox);$('btnNavProfile').addEventListener('click',openProfile);$('btnHeroSell').addEventListener('click',function(){openModal('modalSell')});$('btnHeroBrowse').addEventListener('click',function(){$('listings').scrollIntoView({behavior:'smooth'})});$('btnCtaSell').addEventListener('click',function(){openModal('modalSell')});$('btnEmptySell').addEventListener('click',function(){openModal('modalSell')});$qa('.category-chip').forEach(function(b){b.addEventListener('click',function(){filterCategory(b.dataset.cat,b)})});$('btnFilterToggle').addEventListener('click',function(){$('filterPanel').classList.toggle('open')});$('sortSelect').addEventListener('change',function(){currentSort=this.value||null;applyFilters()});$('searchInput').addEventListener('input',applyFilters);$('searchInputMobile').addEventListener('input',function(){$('searchInput').value=this.value;applyFilters()});$('priceMin').addEventListener('input',function(){updatePriceLabels();applyFilters()});$('priceMax').addEventListener('input',function(){updatePriceLabels();applyFilters()});$qa('.size-chip').forEach(function(b){b.addEventListener('click',function(){toggleSize(b)})});$qa('input[name="statusFilter"]').forEach(function(r){r.addEventListener('change',applyFilters)});$qa('#mediumFilters .filter-check').forEach(function(c){c.addEventListener('change',applyFilters)});$('btnClearAll').addEventListener('click',clearAllFilters);$('btnResetFilters').addEventListener('click',clearAllFilters);$('btnNoResultsClear').addEventListener('click',clearAllFilters);$('btnLoadMore').addEventListener('click',function(){displayCount+=12;applyFilters()});$('listingsGrid').addEventListener('click',function(e){var lb=e.target.closest('[data-like]');if(lb){e.stopPropagation();toggleLike(lb.dataset.like);return}var card=e.target.closest('.art-card');if(card)openDetail(card.dataset.id)});$('btnDetailBuy').addEventListener('click',openEscrow);$('btnDetailContact').addEventListener('click',openContact);$('btnDetailLike').addEventListener('click',function(){if(!currentDetailId)return;toggleLike(currentDetailId);$('btnDetailLike').className='btn-secondary px-4 py-3.5 rounded-xl flex items-center justify-center'+(likedItems.has(currentDetailId)?' liked':'')});$('formEscrow').addEventListener('submit',submitEscrow);$('txList').addEventListener('click',function(e){var btn=e.target.closest('[data-action]');if(!btn)return;var action=btn.dataset.action,txId=btn.dataset.txid,dispId=btn.dataset.dispid;if(action==='ship'){var tx=transactions.find(function(t){return t.id===txId});if(tx){tx.status='shipped';showToast('Marked as shipped','success');updateStats();renderTx()}}else if(action==='confirm'){var tx2=transactions.find(function(t){return t.id===txId});if(tx2){tx2.status='released';var art=artworks.find(function(a){return a.id===tx2.artworkId});if(art)art.sold=true;showToast('Confirmed! Funds released.','success');updateStats();renderTx();applyFilters()}}else if(action==='dispute'){currentDetailId=txId;openDispute(txId)}else if(action==='viewdisp'){viewDispute(dispId)}});$('formDispute').addEventListener('submit',submitDispute);$('evidenceDrop').addEventListener('click',function(){$('evidenceInput').click()});$('evidenceInput').addEventListener('change',function(){var files=this.files;for(var i=0;i<files.length&&evidenceFiles.length<5;i++){(function(file){var reader=new FileReader();reader.onload=function(ev){evidenceFiles.push({data:ev.target.result,name:file.name});renderEvidence()};reader.readAsDataURL(file)})(files[i])}this.value=''});$('evidencePreview').addEventListener('click',function(e){var rm=e.target.closest('[data-rmev]');if(rm){evidenceFiles.splice(parseInt(rm.dataset.rmev),1);renderEvidence()}});$('formChat').addEventListener('submit',sendMsg);$('inboxList').addEventListener('click',function(e){var item=e.target.closest('.inbox-item');if(item){closeModal('modalInbox');currentDetailId=item.dataset.conv;openContact()}});$('formSell').addEventListener('submit',submitSell);$('btnProfileEdit').addEventListener('click',function(){showToast('Coming soon','info');closeModal('modalProfile')});var obs=new IntersectionObserver(function(entries){entries.forEach(function(en){if(en.isIntersecting)en.target.classList.add('is-visible')})},{threshold:0.1,rootMargin:'0px 0px -50px 0px'});$qa('.reveal-on-scroll').forEach(function(el){obs.observe(el)});lucide.createIcons();applyFilters()}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();
+</script>
+</body>
+</html>
